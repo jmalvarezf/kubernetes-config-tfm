@@ -13,6 +13,9 @@ spec:
       - name: event-sender
         image: ceuramaster/event-sender:0.1.1-SNAPSHOT
         imagePullPolicy: Always
+        env:
+        - name: KAFKA_SERVERS
+          value: kafka-service:9094
       imagePullSecrets:
         - name: regcred
       
