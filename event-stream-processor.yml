@@ -2,19 +2,21 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: event-sender
+  name: event-stream-processor
 spec:
   template:
     metadata:
       labels:
-        app: event-sender
+        app: event-stream-processor
     spec:
       containers:
-      - name: event-sender
-        image: ceuramaster/event-sender:0.1.2-SNAPSHOT
+      - name: event-stream-processor
+        image: ceuramaster/event-stream-processor:0.1.0-SNAPSHOT
         imagePullPolicy: Always
         env:
         - name: KAFKA_SERVERS
           value: kafka-service:9094
+        - name: CUSTOMER_SERVICE
+          value: http://customer-permission-service:8081/customers
       imagePullSecrets:
         - name: regcred
