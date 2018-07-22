@@ -1,0 +1,75 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: kafka-connect
+spec:
+  template:
+    metadata:
+      labels:
+        app: kafka-connect
+        id: "1"
+    spec:
+      containers:
+      - name: kafka-connect
+        image: confluentinc/cp-kafka-connect:4.1.0
+        resources:
+          limits:
+            cpu: "1000m"
+        ports:
+        - containerPort: 8083
+        env:
+        #- name: KAFKA_ADVERTISED_PORT
+        #  value: "9092"
+        - name: CONNECT_BOOTSTRAP_SERVERS
+          value: kafka-service:9094
+        - name: CONNECT_GROUP_ID
+          value: ceuramaster
+        - name: CONNECT_CONFIG_STORAGE_TOPIC
+          value: ceuramaster-config
+        - name: CONNECT_OFFSET_STORAGE_TOPIC
+          value: ceuramaster-offsets
+        - name: CONNECT_STATUS_STORAGE_TOPIC
+          value: ceuramaster-status
+        - name: CONNECT_AUTO_CREATE_TOPICS_ENABLE
+          value: "true"
+        - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
+          value: "1"
+        - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
+          value: "1"
+        - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
+          value: "1"
+        - name: CONNECT_KEY_CONVERTER
+          value: "org.apache.kafka.connect.json.JsonConverter"
+        - name: CONNECT_VALUE_CONVERTER
+          value: "org.apache.kafka.connect.json.JsonConverter"
+        - name: CONNECT_INTERNAL_KEY_CONVERTER
+          value: "org.apache.kafka.connect.json.JsonConverter"
+        - name: CONNECT_INTERNAL_VALUE_CONVERTER
+          value: "org.apache.kafka.connect.json.JsonConverter"
+        - name: CONNECT_REST_ADVERTISED_HOST_NAME
+          value: kafka-connect-service
+        - name: CONNECT_LOG4J_ROOT_LOGLEVEL
+          value: INFO
+        - name: CONNECT_LOG4J_LOGGERS
+          value: "org.reflections=ERROR"
+        #- name: CONNECT_REST_HOST_NAME
+        #  value: kafka-connect-service
+        - name: CONNECT_PLUGIN_PATH
+          value: "/usr/share/java"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-connect-service
+  labels:
+    app: kafka-connect
+spec:
+  ports:
+  - name: kafka-connect-port
+    port: 8083
+    protocol: TCP
+  selector:
+    app: kafka-connect
+  type: NodePort
