@@ -15,7 +15,7 @@ image:
 common:
   # Defines the service type for all outward-facing (non-discovery) services.
   # For minikube use NodePort otherwise use LoadBalancer
-  serviceType: ClusterIP
+  serviceType: NodePort
 
   env:
     CLUSTER_NAME: "elastic-ceura"

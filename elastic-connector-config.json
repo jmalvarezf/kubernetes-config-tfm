@@ -1,0 +1,12 @@
+{
+    "name": "elasticsearch-schema-sink",
+    "config": {
+        "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+        "topics": "events-checked",
+        "connection.url":"http://dusty-sponge-elasticsearch:9200",
+        "type.name": "events",
+        "key.ignore": "true",
+        "schema.ignore": "true",
+        "topic.index.map": "events-checked:events"
+    }
+}

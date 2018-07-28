@@ -1,0 +1,1 @@
+curl -f -XPOST -H "Content-Type: application/json" -H "kbn-xsrf: cluster" 'http://192.168.99.100:31096/api/saved_objects/index-pattern/events*' -d'{"attributes":{"title":"events*","timeFieldName":"@timestamp"}}'
