@@ -10,6 +10,10 @@ spec:
         app: kafka-connect
         id: "1"
     spec:
+      initContainers:
+      - name: init-wait
+        image: alpine
+        command: ["sh", "-c", "for i in $(seq 1 300); do nc -zvw1 kafka-service 9094 && exit 0 || sleep 3; done; exit 1"]
       containers:
       - name: kafka-connect
         image: confluentinc/cp-kafka-connect:4.1.0

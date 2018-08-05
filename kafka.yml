@@ -10,6 +10,10 @@ spec:
         app: kafka
         id: "1"
     spec:
+      initContainers:
+      - name: init-wait
+        image: alpine
+        command: ["sh", "-c", "for i in $(seq 1 300); do nc -zvw1 zookeeper 2181 && exit 0 || sleep 3; done; exit 1"]
       containers:
       - name: kafka
         image: confluentinc/cp-kafka:4.1.0
