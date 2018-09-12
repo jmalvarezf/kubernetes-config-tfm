@@ -17,9 +17,6 @@ spec:
       containers:
       - name: kafka-connect
         image: confluentinc/cp-kafka-connect:4.1.0
-        resources:
-          limits:
-            cpu: "1000m"
         ports:
         - containerPort: 8083
         env:
@@ -84,4 +81,4 @@ spec:
     protocol: TCP
   selector:
     app: kafka-connect
-  type: NodePort
+  type: LoadBalancer
