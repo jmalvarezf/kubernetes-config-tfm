@@ -15,10 +15,25 @@ spec:
         command: ["sh", "-c", "for i in $(seq 1 300); do nc -zvw1 kafka-service 9094 && exit 0 || sleep 3; done; exit 1"]
       containers:
       - name: event-sender
-        image: ceuramaster/event-sender:0.1.4-SNAPSHOT
+        image: ceuramaster/event-sender:0.2.5-SNAPSHOT
         imagePullPolicy: Always
         env:
         - name: KAFKA_SERVERS
           value: kafka-service:9094
       imagePullSecrets:
         - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-sender-service
+  labels:
+    app: event-sender
+spec:
+  ports:
+  - name: event-sender-port
+    port: 8080
+    protocol: TCP
+  selector:
+    app: event-sender
+  type: LoadBalancer
