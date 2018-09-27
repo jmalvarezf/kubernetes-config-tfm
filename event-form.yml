@@ -1,0 +1,35 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: event-form
+spec:
+  template:
+    metadata:
+      labels:
+        app: event-form
+    spec:
+      containers:
+      - name: event-sender
+        image: ceuramaster/event-form:0.1.4
+        imagePullPolicy: Always
+        env:
+        - name: REACT_APP_EVENT_API_URL
+          value: http://event-sender:8080/events
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-form-service
+  labels:
+    app: event-form
+spec:
+  ports:
+  - name: event-form-port
+    port: 80
+    protocol: TCP
+  selector:
+    app: event-form
+  type: LoadBalancer
