@@ -1,0 +1,24 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: promotion-sender
+spec:
+  template:
+    metadata:
+      labels:
+        app: promotion-sender
+    spec:
+      initContainers:
+      - name: init-wait
+        image: alpine
+        command: ["sh", "-c", "for i in $(seq 1 300); do nc -zvw1 kafka-service 9094 && exit 0 || sleep 3; done; exit 1"]
+      containers:
+      - name: promotion-sender
+        image: ceuramaster/promotion-sender:0.2.1-SNAPSHOT
+        imagePullPolicy: Always
+        env:
+        - name: KAFKA_SERVERS
+          value: kafka-service:9094
+      imagePullSecrets:
+        - name: regcred

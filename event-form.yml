@@ -11,11 +11,8 @@ spec:
     spec:
       containers:
       - name: event-sender
-        image: ceuramaster/event-form:0.1.4
+        image: ceuramaster/event-form:0.2.0
         imagePullPolicy: Always
-        env:
-        - name: REACT_APP_EVENT_API_URL
-          value: http://event-sender:8080/events
       imagePullSecrets:
         - name: regcred
 ---
