@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: event-sender
-        image: ceuramaster/event-form:0.2.0
+        image: ceuramaster/event-form:0.3.0
         imagePullPolicy: Always
       imagePullSecrets:
         - name: regcred

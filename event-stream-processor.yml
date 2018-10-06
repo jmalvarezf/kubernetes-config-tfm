@@ -15,7 +15,7 @@ spec:
         command: ["sh", "-c", "for i in $(seq 1 300); do nc -zvw1 kafka-service 9094 && exit 0 || sleep 3; done; exit 1"]
       containers:
       - name: event-stream-processor
-        image: ceuramaster/event-stream-processor:0.2.10-SNAPSHOT
+        image: ceuramaster/event-stream-processor:0.2.12-SNAPSHOT
         imagePullPolicy: Always
         env:
         - name: KAFKA_SERVERS
